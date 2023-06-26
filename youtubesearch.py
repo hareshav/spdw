@@ -1,21 +1,26 @@
-from youtube_search import YoutubeSearch
+from youtubesearchpython import VideosSearch
 
-# Specify the search query
-query = 'YOUR_SEARCH_QUERY'  # Replace with your desired search query
-
-# Perform the search
-results = YoutubeSearch(query, max_results=10).to_dict()
-
-# Extract video information from the results
+def search_youtube_videos(query):
+    videos_search = VideosSearch(query, limit=1)
+    results = videos_search.result()
+    videos = []
+    for video in results['result']:
+        video_data = {
+            'title': video['title'],
+            'video_id': video['id'],
+            'duration': video['duration'],
+            'thumbnail': video['thumbnails'][0]['url'],
+            'link':video['link']
+        }
+        print(video)
+        videos.append(video_data)
+    return videos
+query = 'Oh Penne by Anirudh Ravichander'
+results = search_youtube_videos(query)
 for video in results:
-    video_id = video['id']
-    video_title = video['title']
-    video_duration = video['duration']
-    video_thumbnail = video['thumbnails'][0]
-
-    # Print or process the video information as needed
-    print(f'Title: {video_title}')
-    print(f'Video ID: {video_id}')
-    print(f'Duration: {video_duration}')
-    print(f'Thumbnail: {video_thumbnail}')
-    print('---')
+    print(f"Title: {video['title']}")
+    print(f"Video ID: {video['video_id']}")
+    print(f"Duration: {video['duration']}")
+    print(f"Thumbnail URL: {video['thumbnail']}")
+    print(f"Link : {video['link']}")
+# https://www.youtube.com/watch?v=nIYiEBniMv8
